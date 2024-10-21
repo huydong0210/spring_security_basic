@@ -1,18 +1,18 @@
 package huydong.com.controller;
 
-import huydong.com.entity.User;
+import huydong.com.entity.UserApp;
 import huydong.com.jwt.JwtProvider;
 import huydong.com.rest.LoginRequest;
-import huydong.com.security.UserDetailsImpl;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,9 +34,21 @@ public class UserController {
         String jwt = jwtProvider.createToken(authentication);
         return new ResponseEntity<>(jwt, null, HttpStatus.OK);
     }
+
     @GetMapping("/account")
-    public ResponseEntity<User> getAccount(){
-        return new ResponseEntity<>(null, null, HttpStatus.OK);
+    public ResponseEntity<UserApp> getAccountUser() {
+        return new ResponseEntity<>(
+                UserApp.fromUserDetails( (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()),
+                null,
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/account")
+    public ResponseEntity<UserApp> getAccountAdmin() {
+        return new ResponseEntity<>(
+                UserApp.fromUserDetails( (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()),
+                null,
+                HttpStatus.OK);
     }
 
 }
