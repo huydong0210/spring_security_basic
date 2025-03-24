@@ -14,7 +14,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         switch (username) {
             case "user": {
                 return UserDetailsImpl.build(
-                        "huydong",
+                        "user",
                         "$2a$10$pbbu0BwZek614oiRKSoitur0j7ZUG1OFcEDUvOZAKwMpBtwlrcoT6", //123465
                         List.of(AuthoritiesConstants.USER));
             }
