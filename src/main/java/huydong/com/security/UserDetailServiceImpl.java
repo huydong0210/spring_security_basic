@@ -11,22 +11,17 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        switch (username) {
-            case "user": {
-                return UserDetailsImpl.build(
-                        "user",
-                        "$2a$10$pbbu0BwZek614oiRKSoitur0j7ZUG1OFcEDUvOZAKwMpBtwlrcoT6", //123465
-                        List.of(AuthoritiesConstants.USER));
-            }
-            case "admin": {
-                return UserDetailsImpl.build(
-                        "admin",
-                        "$2a$10$pbbu0BwZek614oiRKSoitur0j7ZUG1OFcEDUvOZAKwMpBtwlrcoT6", //123465
-                        List.of(AuthoritiesConstants.ADMIN));
-            }
-            default:
-                return null;
-        }
+        return switch (username) {
+            case "user" -> UserDetailsImpl.build(
+                    "user",
+                    "$2a$10$pbbu0BwZek614oiRKSoitur0j7ZUG1OFcEDUvOZAKwMpBtwlrcoT6", //123465
+                    List.of(AuthoritiesConstants.USER));
+            case "admin" -> UserDetailsImpl.build(
+                    "admin",
+                    "$2a$10$pbbu0BwZek614oiRKSoitur0j7ZUG1OFcEDUvOZAKwMpBtwlrcoT6", //123465
+                    List.of(AuthoritiesConstants.ADMIN));
+            default -> null;
+        };
 
 
     }
